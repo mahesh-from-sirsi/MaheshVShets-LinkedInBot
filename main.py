@@ -1,4 +1,5 @@
 import streamlit as st
+import time
 from langchain_openai import ChatOpenAI
 
 # Title and description
@@ -29,6 +30,7 @@ if st.button("Generate LinkedIn Post"):
     if topic:
         with st.spinner("Generating posts..."):
             base_response, ft_response = generate_linkedin_post(f"Generate a LinkedIn post about {topic}")
+            time.sleep(3)
         
         col1, col2 = st.columns(2)
         

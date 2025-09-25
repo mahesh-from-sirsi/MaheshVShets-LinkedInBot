@@ -16,8 +16,9 @@ st.markdown(
 # Text input for topic
 topic = st.text_input("Please enter the topic")
 st.code(
-    """Example: Explain Transformers Architecture
-How does RAG work?""",
+    """Example: 
+       Explain Transformers Architecture
+       How does RAG work?""",
     language=None
 )
 

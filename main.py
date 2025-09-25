@@ -22,7 +22,7 @@ How does RAG work?""",
 )
 
 # Initialize the models
-base_model = ChatOpenAI(model="gpt-4.1-mini-2025-04-14")
+base_model = ChatOpenAI(model="gpt-4.1-mini-2025-04-14", temperature=0.7)
 ft_model = ChatOpenAI(
     model="ft:gpt-4.1-mini-2025-04-14:daivajnaads:maheshvs-linkedinposts:CJZ5hLYj",
     temperature=0.7  # optional, ensures variability
@@ -30,40 +30,46 @@ ft_model = ChatOpenAI(
 
 
 # Function to generate posts using both models
-def generate_linkedin_post(prompt, base_model=base_model, ft_model=ft_model):
-    # Call base model
-    base_response = base_model([HumanMessage(content=prompt)])
-    # Call fine-tuned model
-    ft_response = ft_model([HumanMessage(content=prompt)])
-    
+def generate_linkedin_post(topic, base_model=base_model, ft_model=ft_model):
+    prompt_for_base = f"Generate a LinkedIn post about {topic}"
+
+    try:
+        # Call base model
+        base_response = base_model([HumanMessage(content=prompt_for_base)])
+        base_content = base_response.content
+    except Exception as e:
+        base_content = f"Error with base model: {str(e)}"
+
+    try:
+        # Call fine-tuned model
+        ft_response = ft_model([HumanMessage(content=topic)])  # Use just the topic for fine-tuned model
+        ft_content = ft_response.content
+    except Exception as e:
+        ft_content = f"Error with fine-tuned model: {str(e)}"
+
     # Always access .content
-    return base_response.content, ft_response.content
+    return base_content, ft_content
 
 # Button to generate posts
 if st.button("Generate LinkedIn Post"):
     if topic:
         with st.spinner("Generating posts..."):
-            base_response, ft_response = generate_linkedin_post(
-                f"Generate a LinkedIn post about {topic}"
-            )
+            base_content, ft_content = generate_linkedin_post(topic)
             # Optional small delay for UX
             time.sleep(5)
-
-        print("RESPONSE IS: ", ft_response)
-        # print(ft_response.content)
 
         # Display responses in two columns
         col1, col2 = st.columns(2)
         with col1:
             st.subheader("Base Model (gpt-4.1-mini) 🔗")
             st.markdown(
-                f'<div class="output-text">{base_response}</div>',
+                f'<div class="output-text">{base_content}</div>',
                 unsafe_allow_html=True
             )
         with col2:
             st.subheader("MaheshVShet\'s-FineTuned-LinkedIn-GPT")
             st.markdown(
-                f'<div class="output-text">{ft_response}</div>',
+                f'<div class="output-text">{ft_content}</div>',
                 unsafe_allow_html=True
             )
     else:

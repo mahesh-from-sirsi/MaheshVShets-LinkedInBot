@@ -1,7 +1,9 @@
+import streamlit as st
 from langchain.chat_models import ChatOpenAI  # Make sure you import the right class
 
 # Title and description
-st.title("🤴🤴🤴 MaheshVShet's-FineTuned-LinkedIn-GPT 🤴🤴🤴")st.markdown("📚 LinkedIn post generator by Gen-AI like [Mahesh Venkatesh Shet](https://www.linkedin.com/in/mahesh-venkatesh-shet/)")
+st.title("🤴🤴🤴 MaheshVShet's-FineTuned-LinkedIn-GPT 🤴🤴🤴")
+st.markdown("📚 LinkedIn post generator by Gen-AI like [Mahesh Venkatesh Shet](https://www.linkedin.com/in/mahesh-venkatesh-shet/)")
 st.markdown("🔥 Powered by GPT-4.1 (gpt-4.1-mini-2025-04-14) fine-tuned model. 🔥")
 
 # Text input

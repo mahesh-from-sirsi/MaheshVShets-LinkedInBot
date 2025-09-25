@@ -30,8 +30,8 @@ ft_model = ChatOpenAI(
 # Function to generate posts using both models
 def generate_linkedin_post(prompt, base_model=base_model, ft_model=ft_model):
     # Wrap prompt in HumanMessage
-    response1 = base_model([HumanMessage(content=prompt)])
     response2 = ft_model([HumanMessage(content=prompt)])
+    response1 = base_model([HumanMessage(content=prompt)])
     return response1.content, response2.content
 
 # Button to generate posts

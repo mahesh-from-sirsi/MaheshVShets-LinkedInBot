@@ -49,8 +49,8 @@ if st.button("Generate LinkedIn Post"):
             # Optional small delay for UX
             time.sleep(5)
 
-        print(ft_response)
-        print(ft_response.content)
+        print("RESPONSE IS: ", ft_response)
+        # print(ft_response.content)
 
         # Display responses in two columns
         col1, col2 = st.columns(2)

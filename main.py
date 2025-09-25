@@ -24,15 +24,20 @@ How does RAG work?""",
 # Initialize the models
 base_model = ChatOpenAI(model="gpt-4.1-mini-2025-04-14")
 ft_model = ChatOpenAI(
-    model="ft:gpt-4.1-mini-2025-04-14:daivajnaads:maheshvs-linkedinposts:CJZ5hLYj"
+    model="ft:gpt-4.1-mini-2025-04-14:daivajnaads:maheshvs-linkedinposts:CJZ5hLYj",
+    temperature=0.7  # optional, ensures variability
 )
+
 
 # Function to generate posts using both models
 def generate_linkedin_post(prompt, base_model=base_model, ft_model=ft_model):
-    # Wrap prompt in HumanMessage
-    response2 = ft_model([HumanMessage(content=prompt)])
-    response1 = base_model([HumanMessage(content=prompt)])
-    return response1.content, response2.content
+    # Call base model
+    base_response = base_model([HumanMessage(content=prompt)])
+    # Call fine-tuned model
+    ft_response = ft_model([HumanMessage(content=prompt)])
+    
+    # Always access .content
+    return base_response.content, ft_response.content
 
 # Button to generate posts
 if st.button("Generate LinkedIn Post"):
@@ -42,7 +47,10 @@ if st.button("Generate LinkedIn Post"):
                 f"Generate a LinkedIn post about {topic}"
             )
             # Optional small delay for UX
-            time.sleep(1)
+            time.sleep(5)
+
+        print(ft_response)
+        print(ft_response.content)
 
         # Display responses in two columns
         col1, col2 = st.columns(2)
